@@ -19,7 +19,7 @@ const Dashboard = () => {
   });
 
   const sections = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const wards = Array.from({ length: 49 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`);
+  const wards = Array.from({ length: 53 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`);
 
   useEffect(() => {
     fetchAllData();
