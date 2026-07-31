@@ -5,7 +5,7 @@ import {
   Trash2, Plus, Info, ArrowRight, Home, 
   Droplets, Zap, Construction, Search, MapPin
 } from 'lucide-react';
-import axios from 'axios';
+import API from '../api';
 
 const Anubhag8 = () => {
   const navigate = useNavigate();
@@ -41,7 +41,9 @@ const Anubhag8 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-data/${ward}/8`);
+        const res = await API.get(
+  `/get-ward-data/${ward}/8`
+);
         if (res.data && res.data.data) {
           setSlums(res.data.data.slums || [ { ...slumTemplate } ]);
           setSource(res.data.data.infoSource || "");
@@ -75,9 +77,18 @@ const Anubhag8 = () => {
     const currentStatus = isComplete ? 'complete' : 'pending';
 
     try {
-      await axios.post('http://localhost:5000/api/save-ward-data', {
-        ward_no: ward, section_no: 8, data: { slums, infoSource }, status: currentStatus
-      });
+      await API.post(
+  '/save-ward-data',
+  {
+    ward_no: ward,
+    section_no: 8,
+    data: {
+      slums,
+      infoSource
+    },
+    status: currentStatus
+  }
+);
       setSaveStatus(currentStatus);
       alert(isComplete ? "पूर्ण सुरक्षित!" : "डेटा सुरक्षित (लंबित)");
       navigate('/data-collection');
