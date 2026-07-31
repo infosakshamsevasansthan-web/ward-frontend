@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-// यह चेक करेगा कि साइट लोकल चल रही है या Vercel पर
+console.log("APP START");
+console.log(API.defaults.baseURL);
 const isLocal = window.location.hostname === "localhost";
 
 const API = axios.create({
