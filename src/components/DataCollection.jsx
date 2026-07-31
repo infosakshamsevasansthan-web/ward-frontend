@@ -27,7 +27,7 @@ const DataCollection = () => {
 
   // --- वार्ड लिस्ट लॉजिक (Logic Updated) ---
   const wardOptions = userRole === 'admin' 
-    ? Array.from({ length: 49 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`) // एडमिन को सब दिखेगा
+    ? Array.from({ length: 53 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`) // एडमिन को सब दिखेगा
     : assignedWards; // यूजर को सिर्फ असाइन वार्ड दिखेंगे
 
   const anubhags = [
