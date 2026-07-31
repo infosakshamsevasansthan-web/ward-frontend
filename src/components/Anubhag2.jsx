@@ -50,45 +50,34 @@ const Anubhag2 = () => {
 
   // --- सेव फंक्शन (Save Function) ---
   const handleSave = async () => {
-    if (!ward) return alert("कृपया पहले वार्ड चुनें!");
-    setLoading(true);
+  if (!ward) return alert("कृपया पहले वार्ड चुनें!");
+  setLoading(true);
 
-    const isComplete = checkIsComplete();
-    const currentStatus = isComplete ? 'complete' : 'pending';
+  const isComplete = checkIsComplete();
+  const currentStatus = isComplete ? "complete" : "pending";
 
-    try {
-  await API.post(
-    '/save-ward-data',
-    {
+  try {
+    await API.post("/save-ward-data", {
       ward_no: ward,
       section_no: 2,
       data: fields,
-      status: currentStatus
-    }
-  );
+      status: currentStatus,
+    });
 
-  setSaveStatus(currentStatus);
-  alert(
-    isComplete
-      ? "अनुभाग-2 पूर्ण सुरक्षित!"
-      : "डेटा सुरक्षित हुआ (अभी कुछ जानकारी बाकी है)"
-  );
-  navigate('/data-collection');
-} catch (err) {
-  alert("सर्वर एरर: डेटा सुरक्षित नहीं हो सका");
-} finally {
-  setLoading(false);
-}
-      setSaveStatus(currentStatus);
-      alert(isComplete ? "अनुभाग-2 पूर्ण सुरक्षित!" : "डेटा सुरक्षित हुआ (अभी कुछ जानकारी बाकी है)");
-      navigate('/data-collection');
-    } catch (err) {
-      alert("सर्वर एरर: डेटा सुरक्षित नहीं हो सका");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setSaveStatus(currentStatus);
+    alert(
+      isComplete
+        ? "अनुभाग-2 पूर्ण सुरक्षित!"
+        : "डेटा सुरक्षित हुआ (अभी कुछ जानकारी बाकी है)"
+    );
 
+    navigate("/data-collection");
+  } catch (err) {
+    alert("सर्वर एरर: डेटा सुरक्षित नहीं हो सका");
+  } finally {
+    setLoading(false);
+  }
+};
   const rows = [
     { label: "2.1 राज्य मुख्यालय", key: "state_hq" },
     { label: "2.2 जिला मुख्यालय", key: "dist_hq" },
