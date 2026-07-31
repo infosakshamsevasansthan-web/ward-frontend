@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Save, AlertCircle, CheckCircle2, Road, Droplets, Zap, ChevronDown } from 'lucide-react';
-import axios from 'axios';
-
+import API from '../api';
 const Anubhag3 = () => {
   const navigate = useNavigate();
   const ward = localStorage.getItem('currentWard');
@@ -34,7 +33,9 @@ const Anubhag3 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-data/${ward}/3`);
+        const res = await API.get(
+  `/get-ward-data/${ward}/3`
+);
         if (res.data && res.data.data) {
           setFields(res.data.data);
           setSaveStatus(res.data.status);
@@ -56,9 +57,15 @@ const Anubhag3 = () => {
     const currentStatus = isComplete ? 'complete' : 'pending';
 
     try {
-      await axios.post('http://localhost:5000/api/save-ward-data', {
-        ward_no: ward, section_no: 3, data: fields, status: currentStatus
-      });
+     await API.post(
+  '/save-ward-data',
+  {
+    ward_no: ward,
+    section_no: 3,
+    data: fields,
+    status: currentStatus
+  }
+);
       setSaveStatus(currentStatus);
       alert(isComplete ? "पूर्ण सुरक्षित!" : "लंबित स्थिति में सुरक्षित!");
       navigate('/data-collection');
