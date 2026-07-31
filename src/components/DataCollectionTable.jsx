@@ -17,7 +17,7 @@ const DataCollection = () => {
     5: 'pending', 6: 'pending', 7: 'pending', 8: 'pending', 9: 'pending'
   });
 
-  const wardOptions = Array.from({ length: 49 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`);
+  const wardOptions = Array.from({ length: 53 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`);
 
   const anubhags = [
     { id: 1, name: "अनुभाग-1: स्थिति एवं विकास का इतिहास" },
