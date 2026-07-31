@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Save, AlertCircle, CheckCircle2, Database } from 'lucide-react';
-// import axios from 'axios';  <-- इसे हटा दें
-import API from '../api'; // <-- इसकी जगह अपनी सेंट्रल API फाइल इस्तेमाल करें
+
+import API from '../api';
 
 const Anubhag1 = () => {
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ const Anubhag1 = () => {
 
   // --- Save Function (Using Central API) ---
   const handleSave = async () => {
+    console.log(API.defaults.baseURL);
     if (!ward) return alert("कृपया पहले वार्ड चुनें!");
     setLoading(true);
     
