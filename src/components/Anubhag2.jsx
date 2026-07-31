@@ -57,20 +57,28 @@ const Anubhag2 = () => {
     const currentStatus = isComplete ? 'complete' : 'pending';
 
     try {
-      await API.post(
-  '/save-ward-data',
-  {
-    ward_no: ward,
-    section_no: 2,
-    data: fields,
-    status: currentStatus
-  }
-);
-        ward_no: ward,
-        section_no: 2,
-        data: fields,
-        status: currentStatus
-      });
+  await API.post(
+    '/save-ward-data',
+    {
+      ward_no: ward,
+      section_no: 2,
+      data: fields,
+      status: currentStatus
+    }
+  );
+
+  setSaveStatus(currentStatus);
+  alert(
+    isComplete
+      ? "अनुभाग-2 पूर्ण सुरक्षित!"
+      : "डेटा सुरक्षित हुआ (अभी कुछ जानकारी बाकी है)"
+  );
+  navigate('/data-collection');
+} catch (err) {
+  alert("सर्वर एरर: डेटा सुरक्षित नहीं हो सका");
+} finally {
+  setLoading(false);
+}
       setSaveStatus(currentStatus);
       alert(isComplete ? "अनुभाग-2 पूर्ण सुरक्षित!" : "डेटा सुरक्षित हुआ (अभी कुछ जानकारी बाकी है)");
       navigate('/data-collection');
