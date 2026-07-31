@@ -7,7 +7,7 @@ const AdminReport = () => {
   const [selectedData, setSelectedData] = useState(null); // Modal के लिए
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const wards = Array.from({ length: 49 }, (_, i) => ({
+  const wards = Array.from({ length: 53 }, (_, i) => ({
     id: i + 1,
     ward_no: `वार्ड ${String(i + 1).padStart(2, '0')}`,
     status: 'pending', // बाद में API से आएगा
