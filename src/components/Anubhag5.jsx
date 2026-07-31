@@ -5,7 +5,7 @@ import {
   Home, Users, Trophy, Film, Music, Library, 
   BookOpen, Heart, Shield, Info, MapPin, Search, ArrowRight 
 } from 'lucide-react';
-import axios from 'axios';
+import API from '../api';
 
 const Anubhag5 = () => {
   const navigate = useNavigate();
@@ -38,7 +38,9 @@ const Anubhag5 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-data/${ward}/5`);
+        const res = await API.get(
+  `/get-ward-data/${ward}/5`
+);
         if (res.data && res.data.data) {
           setRows(res.data.data.rows);
           setSource(res.data.data.infoSource || "");
@@ -61,9 +63,15 @@ const Anubhag5 = () => {
     const currentStatus = isComplete ? 'complete' : 'pending';
 
     try {
-      await axios.post('http://localhost:5000/api/save-ward-data', {
-        ward_no: ward, section_no: 5, data: { rows, infoSource }, status: currentStatus
-      });
+      await API.post(
+  '/save-ward-data',
+  {
+    ward_no: ward,
+    section_no: 5,
+    data: { rows, infoSource },
+    status: currentStatus
+  }
+);
       setSaveStatus(currentStatus);
       alert(isComplete ? "अनुभाग-5 पूर्ण सुरक्षित!" : "डेटा सुरक्षित हुआ (लंबित)");
       navigate('/data-collection');
