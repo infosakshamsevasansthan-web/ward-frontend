@@ -49,7 +49,10 @@ const Anubhag1 = () => {
 
   // --- Save Function (Using Central API) ---
   const handleSave = async () => {
+    console.log("BUILD VERSION = 31 JULY");
     console.log(API.defaults.baseURL);
+    console.log(window.location.hostname);
+    
     if (!ward) return alert("कृपया पहले वार्ड चुनें!");
     setLoading(true);
     
