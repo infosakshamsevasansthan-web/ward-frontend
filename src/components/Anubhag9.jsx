@@ -6,7 +6,7 @@ import {
   Eraser, PenTool, Search, ArrowRight, Flag
 } from 'lucide-react';
 import SignatureCanvas from 'react-signature-canvas';
-import axios from 'axios';
+import API from '../api';
 
 const Anubhag9 = () => {
   const navigate = useNavigate();
@@ -31,7 +31,9 @@ const Anubhag9 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-data/${ward}/9`);
+        const res = await API.get(
+  `/get-ward-data/${ward}/9`
+);
         if (res.data && res.data.data) {
           setFields(res.data.data);
           setSaveStatus(res.data.status);
@@ -61,9 +63,15 @@ const Anubhag9 = () => {
     const currentStatus = isComplete ? 'complete' : 'pending';
 
     try {
-      await axios.post('http://localhost:5000/api/save-ward-data', {
-        ward_no: ward, section_no: 9, data: updatedFields, status: currentStatus
-      });
+      await API.post(
+  '/save-ward-data',
+  {
+    ward_no: ward,
+    section_no: 9,
+    data: updatedFields,
+    status: currentStatus
+  }
+);
       setSaveStatus(currentStatus);
       alert(isComplete ? "पूरा सर्वे सफलतापूर्वक संपन्न!" : "डेटा सुरक्षित (लंबित)");
       navigate('/data-collection');
