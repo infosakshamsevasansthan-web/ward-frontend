@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-// अगर आप अपने कंप्यूटर पर टेस्ट कर रहे हैं तो 'localhost' चलेगा
+// यह चेक करेगा कि साइट लोकल चल रही है या Vercel पर
 const isLocal = window.location.hostname === "localhost";
 
 const API = axios.create({
   baseURL: isLocal 
     ? 'http://localhost:5000/api' 
-    : 'https://ward-backend-kcW8.onrender.com/api' // <--- यहाँ अपना Render Web Service वाला लिंक डालें (डेटाबेस का नहीं)
+    : 'https://ward-backend-kcW8.onrender.com/api' // <--- यहाँ पक्का करें कि आपका Render बैकएंड लिंक सही है
 });
 
 export default API;
