@@ -46,7 +46,7 @@ const Anubhag1 = () => {
     );
     return basicFilled && tableFilled;
   };
-
+console.log("API =", API.defaults.baseURL);
   // --- Save Function (Using Central API) ---
   const handleSave = async () => {
     console.log("BUILD VERSION = 31 JULY");
