@@ -5,7 +5,7 @@ import {
   Stethoscope, Activity, Bed, Users, 
   PlusSquare, Pill, Info, ArrowRight, MapPin, Search, Building2
 } from 'lucide-react';
-import axios from 'axios';
+import API from '../api';
 
 const Anubhag7 = () => {
   const navigate = useNavigate();
@@ -43,7 +43,9 @@ const Anubhag7 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-data/${ward}/7`);
+        const res = await API.get(
+  `/get-ward-data/${ward}/7`
+);
         if (res.data && res.data.data) {
           const d = res.data.data;
           setGovtRows(d.govtRows || govtRows);
@@ -72,11 +74,20 @@ const Anubhag7 = () => {
     const currentStatus = isComplete ? 'complete' : 'pending';
 
     try {
-      await axios.post('http://localhost:5000/api/save-ward-data', {
-        ward_no: ward, section_no: 7, 
-        data: { govtRows, privateData, personnel, infoSource }, 
-        status: currentStatus
-      });
+      await API.post(
+  '/save-ward-data',
+  {
+    ward_no: ward,
+    section_no: 7,
+    data: {
+      govtRows,
+      privateData,
+      personnel,
+      infoSource
+    },
+    status: currentStatus
+  }
+);
       setSaveStatus(currentStatus);
       alert(isComplete ? "पूर्ण सुरक्षित!" : "डेटा सुरक्षित (लंबित)");
       navigate('/data-collection');
