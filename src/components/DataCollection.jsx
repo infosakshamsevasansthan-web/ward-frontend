@@ -5,7 +5,7 @@ import {
   ChevronRight, MapPin, Send, XCircle, PartyPopper
 } from 'lucide-react';
 import SelectBox from '../components/SelectBox';
-import axios from 'axios';
+import API from "../api";
 
 const DataCollection = () => {
   const navigate = useNavigate();
@@ -46,7 +46,9 @@ const DataCollection = () => {
     const fetchAllStatuses = async () => {
       if (!selectedWard) return;
       try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-status/${selectedWard}`);
+        const res = await API.get(
+  `/get-ward-status/${selectedWard}`
+);
         if (res.data) setSectionStatus(res.data);
       } catch (err) {
         setSectionStatus({ 1:'pending', 2:'pending', 3:'pending', 4:'pending', 5:'pending', 6:'pending', 7:'pending', 8:'pending', 9:'pending' });
@@ -73,7 +75,12 @@ const DataCollection = () => {
     } else {
       setLoading(true);
       try {
-        await axios.post('http://localhost:5000/api/final-submit', { ward_no: selectedWard });
+        await API.post(
+  "/final-submit",
+  {
+    ward_no: selectedWard
+  }
+);
         setShowResult({
           show: true,
           type: 'success',
