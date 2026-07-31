@@ -7,7 +7,7 @@ const UserManagement = () => {
   const [showForm, setShowResult] = useState(false);
   const [newUser, setNewUser] = useState({ username: '', password: '', assigned_wards: [] });
   
-  const wardOptions = Array.from({ length: 49 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`);
+  const wardOptions = Array.from({ length: 53 }, (_, i) => `वार्ड ${String(i + 1).padStart(2, '0')}`);
 
   useEffect(() => { fetchUsers(); }, []);
 
