@@ -4,7 +4,7 @@ import {
   Eye, PencilLine, CheckCircle2, Clock, Search, Database, ChevronRight 
 } from 'lucide-react';
 import SelectBox from './SelectBox';
-import axios from 'axios';
+import API from '../api';
 
 const DataCollection = () => {
   const navigate = useNavigate();
@@ -33,17 +33,24 @@ const DataCollection = () => {
 
   // वार्ड बदलते ही बैकएंड से स्टेटस लोड करना
   useEffect(() => {
-    const fetchStatus = async () => {
-      if (!selectedWard) return;
-      try {
-        const res = await axios.get(`http://localhost:5000/api/get-ward-status/${selectedWard}`);
-        if (res.data) setSectionStatus(res.data);
-      } catch (err) {
-        console.log("Error fetching status");
+  const fetchStatus = async () => {
+    if (!selectedWard) return;
+
+    try {
+      const res = await API.get(
+        `/get-ward-status/${selectedWard}`
+      );
+
+      if (res.data) {
+        setSectionStatus(res.data);
       }
-    };
-    fetchStatus();
-  }, [selectedWard]);
+    } catch (err) {
+      console.error("Error fetching status:", err);
+    }
+  };
+
+  fetchStatus();
+}, [selectedWard]);
 
   const handleWardChange = (val) => {
     setSelectedWard(val);
