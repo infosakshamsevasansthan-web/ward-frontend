@@ -7,6 +7,8 @@ import API from '../api';
 const Anubhag1 = () => {
   const navigate = useNavigate();
   const ward = localStorage.getItem('currentWard');
+  const role = localStorage.getItem("role");
+  const isAdmin = role === "admin";
   const [loading, setLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null);
 
@@ -104,16 +106,16 @@ console.log("API =", API.defaults.baseURL);
 
         <div className="p-8 space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FloatingInput label="राज्य / केंद्र शासित प्रदेश" value={fields.state_name} onChange={(v) => setFields({...fields, state_name: v})} />
-            <FloatingInput label="जिले का नाम" value={fields.dist_name} onChange={(v) => setFields({...fields, dist_name: v})} />
-            <FloatingInput label="नगर का नाम" value={fields.city_name} onChange={(v) => setFields({...fields, city_name: v})} />
+            <FloatingInput label="राज्य / केंद्र शासित प्रदेश" value={fields.state_name} onChange={(v) => setFields({...fields, state_name: v})} readOnly={!isAdmin} />
+            <FloatingInput label="जिले का नाम" value={fields.dist_name} onChange={(v) => setFields({...fields, dist_name: v})} readOnly={!isAdmin} />
+            <FloatingInput label="नगर का नाम" value={fields.city_name} onChange={(v) => setFields({...fields, city_name: v})} readOnly={!isAdmin} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <FloatingInput label="1.1 नगर की नागरिक स्थिति" value={fields.civic_status} onChange={(v) => setFields({...fields, civic_status: v})} />
-            <FloatingInput label="1.2 लोकेशन कोड" value={fields.location_code} onChange={(v) => setFields({...fields, location_code: v})} />
-            <FloatingInput label="1.3 तहसील का नाम" value={fields.tehsil_name} onChange={(v) => setFields({...fields, tehsil_name: v})} />
-            <FloatingInput label="1.4 क्षेत्रफल (Sq. KM)" value={fields.area_sqkm} onChange={(v) => setFields({...fields, area_sqkm: v})} />
+            <FloatingInput label="1.1 नगर की नागरिक स्थिति" value={fields.civic_status} onChange={(v) => setFields({...fields, civic_status: v})} readOnly={!isAdmin} />
+            <FloatingInput label="1.2 लोकेशन कोड" value={fields.location_code} onChange={(v) => setFields({...fields, location_code: v})} readOnly={!isAdmin} />
+            <FloatingInput label="1.3 तहसील का नाम" value={fields.tehsil_name} onChange={(v) => setFields({...fields, tehsil_name: v})} readOnly={!isAdmin} />
+            <FloatingInput label="1.4 क्षेत्रफल (Sq. KM)" value={fields.area_sqkm} onChange={(v) => setFields({...fields, area_sqkm: v})} readOnly={!isAdmin} />
           </div>
 
           <div className="space-y-4">
@@ -138,19 +140,37 @@ console.log("API =", API.defaults.baseURL);
                       <tr key={idx} className="border-b border-slate-100 hover:bg-white transition-colors">
                         <td className="p-4 text-center font-black text-slate-400 bg-slate-100/50">{row.year}</td>
                         <td className="p-2">
-                          <TableInput value={row.population} onChange={(v) => {
-                            const nt = [...censusTable]; nt[idx].population = v; setCensusTable(nt);
-                          }} />
+                         <TableInput
+  value={row.population}
+  onChange={(v) => {
+    const nt = [...censusTable];
+    nt[idx].population = v;
+    setCensusTable(nt);
+  }}
+  readOnly={!isAdmin}
+/>
                         </td>
                         <td className="p-2">
-                          <TableInput value={row.growth_rate} onChange={(v) => {
-                            const nt = [...censusTable]; nt[idx].growth_rate = v; setCensusTable(nt);
-                          }} />
+                          <TableInput
+  value={row.growth_rate}
+  onChange={(v) => {
+    const nt = [...censusTable];
+    nt[idx].growth_rate = v;
+    setCensusTable(nt);
+  }}
+  readOnly={!isAdmin}
+/>
                         </td>
                         <td className="p-2">
-                          <TableInput value={row.sex_ratio} onChange={(v) => {
-                            const nt = [...censusTable]; nt[idx].sex_ratio = v; setCensusTable(nt);
-                          }} />
+                         <TableInput
+  value={row.sex_ratio}
+  onChange={(v) => {
+    const nt = [...censusTable];
+    nt[idx].sex_ratio = v;
+    setCensusTable(nt);
+  }}
+  readOnly={!isAdmin}
+/>
                         </td>
                       </tr>
                     ))}
@@ -159,7 +179,7 @@ console.log("API =", API.defaults.baseURL);
               </div>
             </div>
           </div>
-
+          {isAdmin && (
           <button 
             onClick={handleSave}
             disabled={loading}
@@ -172,21 +192,34 @@ console.log("API =", API.defaults.baseURL);
               </>
             )}
           </button>
+      )}
         </div>
       </div>
     </div>
   );
 };
 
-const FloatingInput = ({ label, value, onChange }) => (
+const FloatingInput = ({
+    label,
+    value,
+    onChange,
+    readOnly = false
+}) => (
   <div className="relative h-16 w-full group">
     <input
       type="text"
       value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className={`peer h-full w-full rounded-2xl border-2 bg-transparent px-4 pt-4 font-bold text-slate-700 outline-none transition-all
-        ${!value ? 'border-red-100 focus:border-red-400 bg-red-50/10' : 'border-slate-100 focus:border-blue-500 bg-white'}`}
+      onChange={readOnly ? undefined : (e) => onChange(e.target.value)}
+      className={`peer h-full w-full rounded-2xl border-2 px-4 pt-4 font-bold outline-none transition-all
+${
+  readOnly
+    ? "bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed"
+    : !value
+      ? "border-red-100 focus:border-red-400 bg-red-50/10"
+      : "border-slate-100 focus:border-blue-500 bg-white"
+}`}
       placeholder=" "
+      readOnly={readOnly}
     />
     <label className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400 transition-all 
       peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base 
@@ -197,15 +230,25 @@ const FloatingInput = ({ label, value, onChange }) => (
   </div>
 );
 
-const TableInput = ({ value, onChange }) => (
+const TableInput = ({
+    value,
+    onChange,
+    readOnly = false
+}) => (
   <input
-    type="text"
-    value={value}
-    onChange={(e) => onChange(e.target.value)}
-    className={`w-full p-2 text-center font-bold text-slate-700 rounded-lg outline-none transition-all border-b-2
-      ${!value ? 'bg-red-50 border-red-200 focus:border-red-500' : 'bg-transparent border-transparent focus:border-blue-500'}`}
-    placeholder="..."
-  />
+  type="text"
+  value={value}
+  onChange={readOnly ? undefined : (e) => onChange(e.target.value)}
+  readOnly={readOnly}
+  className={`w-full p-2 text-center font-bold rounded-lg outline-none transition-all border-b-2
+    ${
+      readOnly
+        ? "bg-gray-100 text-gray-500 cursor-not-allowed border-gray-200"
+        : !value
+        ? "bg-red-50 border-red-200 focus:border-red-500"
+        : "bg-transparent border-transparent focus:border-blue-500"
+    }`}
+/>
 );
 
 export default Anubhag1;
